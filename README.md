@@ -1,4 +1,53 @@
-# React + Vite
+# Subscription Manager
+
+A web application for managing personal subscriptions built with React and Firebase.
+
+## Features
+
+- User authentication (sign up/login)
+- Add and manage subscriptions
+- Track monthly and annual costs
+- Edit or delete subscriptions
+- Mark subscriptions as active/inactive/cancelled
+
+## Technologies Used
+
+- React 19
+- Tailwind CSS
+- Firebase Authentication
+- Firebase Firestore
+- Vite
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Configure Firebase:
+   - Create a Firebase project
+   - Enable Authentication (Email/Password)
+   - Create a Firestore database
+   - Update `src/config/firebase.js` with your Firebase config
+
+3. Run the application:
+```bash
+npm run dev
+```
+
+## Usage
+
+- Create an account or sign in
+- Add subscriptions with service name, cost, due date, and billing frequency
+- View total monthly and annual costs
+- Edit or delete subscriptions as needed
+
+## Build
+
+```bash
+npm run build
+```+ Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

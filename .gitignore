@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Setup and guide files (exclude from submission)
+firebase-security-rules.txt
+FIREBASE_SETUP.md
+DEPLOYMENT.md
+.env.example
