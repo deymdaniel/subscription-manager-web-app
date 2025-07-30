@@ -1,6 +1,9 @@
 import React from "react";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 const CostSummary = ({ subscriptions }) => {
+  const { formatAmount, convertAmount } = useCurrency();
+
   const calculateTotals = () => {
     const activeSubscriptions = subscriptions.filter(
       (sub) => sub.status === "active"
@@ -9,22 +12,24 @@ const CostSummary = ({ subscriptions }) => {
     let monthlyTotal = 0;
 
     activeSubscriptions.forEach((sub) => {
-      const cost = sub.cost;
+      // Convert subscription cost from USD to current currency
+      const convertedCost = convertAmount(sub.cost, "USD");
+
       switch (sub.billingFrequency) {
         case "weekly":
-          monthlyTotal += cost * 4.33; // Average weeks per month
+          monthlyTotal += convertedCost * 4.33; // Average weeks per month
           break;
         case "monthly":
-          monthlyTotal += cost;
+          monthlyTotal += convertedCost;
           break;
         case "quarterly":
-          monthlyTotal += cost / 3;
+          monthlyTotal += convertedCost / 3;
           break;
         case "annually":
-          monthlyTotal += cost / 12;
+          monthlyTotal += convertedCost / 12;
           break;
         default:
-          monthlyTotal += cost;
+          monthlyTotal += convertedCost;
       }
     });
 
@@ -75,13 +80,13 @@ const CostSummary = ({ subscriptions }) => {
         <div className='grid grid-cols-2 gap-4'>
           <div className='text-center'>
             <div className='text-2xl font-bold text-blue-600'>
-              ${totals.monthly.toFixed(2)}
+              {formatAmount(totals.monthly)}
             </div>
             <div className='text-sm text-gray-500'>Monthly</div>
           </div>
           <div className='text-center'>
             <div className='text-2xl font-bold text-green-600'>
-              ${totals.annual.toFixed(2)}
+              {formatAmount(totals.annual)}
             </div>
             <div className='text-sm text-gray-500'>Annual</div>
           </div>

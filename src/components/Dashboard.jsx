@@ -4,6 +4,7 @@ import { subscriptionService } from "../services/subscriptionService";
 import SubscriptionList from "./SubscriptionList";
 import SubscriptionForm from "./SubscriptionForm";
 import CostSummary from "./CostSummary";
+import CurrencySelector from "./CurrencySelector";
 
 const Dashboard = () => {
   const { currentUser, logout } = useAuth();
@@ -90,12 +91,17 @@ const Dashboard = () => {
                 Welcome back, {currentUser.displayName || currentUser.email}
               </p>
             </div>
-            <button
-              onClick={handleLogout}
-              className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
-            >
-              Sign Out
-            </button>
+            <div className='flex items-center space-x-4'>
+              <div className='w-48'>
+                <CurrencySelector />
+              </div>
+              <button
+                onClick={handleLogout}
+                className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>

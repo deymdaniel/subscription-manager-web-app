@@ -1,7 +1,9 @@
 import React from "react";
 import { format } from "date-fns";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 const SubscriptionList = ({ subscriptions, onEdit, onDelete }) => {
+  const { formatAmount, convertAmount } = useCurrency();
   const getStatusColor = (status) => {
     switch (status) {
       case "active":
@@ -78,8 +80,8 @@ const SubscriptionList = ({ subscriptions, onEdit, onDelete }) => {
                     </div>
                     <div className='mt-1 flex items-center text-sm text-gray-500'>
                       <span>
-                        ${subscription.cost.toFixed(2)} /{" "}
-                        {subscription.billingFrequency}
+                        {formatAmount(convertAmount(subscription.cost, "USD"))}{" "}
+                        / {subscription.billingFrequency}
                       </span>
                       <span className='mx-2'>•</span>
                       <span>Due: {formatDate(subscription.dueDate)}</span>

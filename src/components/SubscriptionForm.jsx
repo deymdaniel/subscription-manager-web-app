@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { subscriptionService } from "../services/subscriptionService";
 import { useAuth } from "../contexts/AuthContext";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 const SubscriptionForm = ({ subscription, onClose, onSuccess }) => {
   const { currentUser } = useAuth();
+  const { currentCurrency, convertAmount } = useCurrency();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -14,20 +16,28 @@ const SubscriptionForm = ({ subscription, onClose, onSuccess }) => {
     formState: { errors },
     reset,
   } = useForm({
-    defaultValues: subscription || {
-      serviceName: "",
-      cost: "",
-      dueDate: "",
-      billingFrequency: "monthly",
-      status: "active",
-    },
+    defaultValues: subscription
+      ? {
+          ...subscription,
+          cost: convertAmount(subscription.cost, "USD").toFixed(2), // Convert from USD to current currency for display
+        }
+      : {
+          serviceName: "",
+          cost: "",
+          dueDate: "",
+          billingFrequency: "monthly",
+          status: "active",
+        },
   });
 
   useEffect(() => {
     if (subscription) {
-      reset(subscription);
+      reset({
+        ...subscription,
+        cost: convertAmount(subscription.cost, "USD").toFixed(2), // Convert from USD to current currency for display
+      });
     }
-  }, [subscription, reset]);
+  }, [subscription, reset, convertAmount]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -36,7 +46,11 @@ const SubscriptionForm = ({ subscription, onClose, onSuccess }) => {
     try {
       const subscriptionData = {
         ...data,
-        cost: parseFloat(data.cost),
+        // Convert cost to USD for storage (assuming input is in current currency)
+        cost:
+          currentCurrency.code === "USD"
+            ? parseFloat(data.cost)
+            : convertAmount(parseFloat(data.cost), currentCurrency.code, "USD"),
         dueDate: new Date(data.dueDate),
       };
 
@@ -116,7 +130,7 @@ const SubscriptionForm = ({ subscription, onClose, onSuccess }) => {
               htmlFor='cost'
               className='block text-sm font-medium text-gray-700'
             >
-              Cost ($)
+              Cost ({currentCurrency.symbol})
             </label>
             <input
               type='number'
