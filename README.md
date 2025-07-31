@@ -1,14 +1,16 @@
-# Subscription Manager
+# SubTrack
 
-A web application for managing personal subscriptions built with React and Firebase.
+A modern web application for tracking and managing personal subscriptions with multi-currency support, built with React and Firebase.
 
 ## Features
 
 - User authentication (sign up/login)
 - Add and manage subscriptions
+- Multi-currency support (USD and Philippine Peso)
 - Track monthly and annual costs
 - Edit or delete subscriptions
 - Mark subscriptions as active/inactive/cancelled
+- Real-time data synchronization
 
 ## Technologies Used
 
@@ -22,6 +24,8 @@ A web application for managing personal subscriptions built with React and Fireb
 
 1. Install dependencies:
 ```bash
+git clone <your-repo-url>
+cd subtrack
 npm install
 ```
 
